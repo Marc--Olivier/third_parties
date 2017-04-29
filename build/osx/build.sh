@@ -1,0 +1,13 @@
+CURRENT_DIR=`pwd`
+INSTALL_DIR=$CURRENT_DIR/install
+BUILD_AUX_DIR=$CURRENT_DIR/build_aux
+ROOT_DIR=$CURRENT_DIR/../..
+SRC_DIR=$ROOT_DIR/src
+
+mkdir -p $INSTALL_DIR
+mkdir -p $BUILD_AUX_DIR
+
+cd $BUILD_AUX_DIR
+cmake -G "CodeBlocks - Ninja" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR -DCMAKE_CXX_FLAGS="-std=c++1z" $SRC_DIR
+ninja
+ninja install
