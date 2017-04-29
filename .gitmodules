@@ -1,3 +1,6 @@
 [submodule "src/Catch"]
 	path = src/Catch
 	url = https://github.com/philsquared/Catch.git
+[submodule "src/google-benchmark"]
+	path = src/google-benchmark
+	url = https://github.com/google/benchmark.git
