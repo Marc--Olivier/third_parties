@@ -1,0 +1,5 @@
+if(NOT TARGET benchmark::benchmark)
+	find_package(benchmark)
+endif()
+include("${CMAKE_CURRENT_LIST_DIR}/GoogleBenchmarkMainTarget.cmake")
+#add_library(benchmark::main ALIAS benchmark::GoogleBenchmarkMain)
