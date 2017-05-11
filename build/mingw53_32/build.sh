@@ -21,3 +21,7 @@ mv $INSTALL_DIR/include/boost-1_65/boost $INSTALL_DIR/include/
 rm -rf $INSTALL_DIR/include/boost-1_65/
 cd -
 
+cd $BUILD_AUX_DIR
+cmake -G "CodeBlocks - Ninja" -DCMAKE_BUILD_TYPE=Release -DCMAKE_INSTALL_PREFIX=$INSTALL_DIR -DCMAKE_CXX_FLAGS="-std=c++1z" $SRC_DIR
+ninja
+ninja install
