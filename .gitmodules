@@ -7,3 +7,6 @@
 [submodule "src/boost"]
 	path = src/boost
 	url = https://github.com/boostorg/boost.git
+[submodule "src/range-v3"]
+	path = src/range-v3
+	url = https://github.com/ericniebler/range-v3.git

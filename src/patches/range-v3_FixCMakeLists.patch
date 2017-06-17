@@ -1,0 +1,53 @@
+From e39d3e6e32037dd9267d9bdad37ad5eb02ad60b8 Mon Sep 17 00:00:00 2001
+From: Marc-Olivier Andrez <mo.andrez@gmail.com>
+Date: Sat, 17 Jun 2017 09:01:13 +0200
+Subject: [PATCH] Fix CMakeLists.txt when including it from a parent directory
+
+When range-v3 was in a subdirectory of a project foo and
+add_subdirectory(range-v3) was called from the CMakeLists.txt
+of project foo, an error message was raised when running cmake:
+""
+CMake Error at range-v3/cmake/TestHeaders.cmake:93 (message):
+  The `HEADERS` argument must be provided.
+Call Stack (most recent call first):
+  range-v3/CMakeLists.txt:103 (generate_standalone_header_tests)
+""
+RANGE_V3_PUBLIC_HEADERS was empty, because the variable
+CMAKE_SOURCE_DIR was used.
+Using CMAKE_CURRENT_SOURCE_DIR instead fixed the issue.
+---
+ CMakeLists.txt | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/CMakeLists.txt b/CMakeLists.txt
+index 9698d20..3cfe395 100644
+--- a/CMakeLists.txt
++++ b/CMakeLists.txt
+@@ -87,12 +87,12 @@ range_v3_append_flag(RANGE_V3_HAS_MTUNE_NATIVE "-mtune=native")
+ 
+ # Test all headers
+ file(GLOB_RECURSE RANGE_V3_PUBLIC_HEADERS
+-                  RELATIVE "${CMAKE_SOURCE_DIR}/include"
+-                  "${CMAKE_SOURCE_DIR}/include/*.hpp")
++                  RELATIVE "${CMAKE_CURRENT_SOURCE_DIR}/include"
++                  "${CMAKE_CURRENT_SOURCE_DIR}/include/*.hpp")
+ 
+ # Add header files as sources to fix MSVS 2017 not finding source during debugging
+ file(GLOB_RECURSE RANGE_V3_PUBLIC_HEADERS_ABSOLUTE
+-                  "${CMAKE_SOURCE_DIR}/include/*.hpp")
++                  "${CMAKE_CURRENT_SOURCE_DIR}/include/*.hpp")
+ 
+ include(TestHeaders)
+ if(RANGE_V3_NO_HEADER_CHECK)
+@@ -103,7 +103,7 @@ endif()
+ generate_standalone_header_tests(EXCLUDE_FROM_ALL MASTER_TARGET headers HEADERS ${RANGE_V3_PUBLIC_HEADERS})
+ 
+ # Grab the range-v3 version numbers:
+-include(${CMAKE_SOURCE_DIR}/Version.cmake)
++include(${CMAKE_CURRENT_SOURCE_DIR}/Version.cmake)
+ set(RANGE_V3_VERSION ${RANGE_V3_MAJOR}.${RANGE_V3_MINOR}.${RANGE_V3_PATCHLEVEL})
+ 
+ # Try to build a new version.hpp
+-- 
+2.10.1 (Apple Git-78)
+
