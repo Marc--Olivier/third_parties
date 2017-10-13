@@ -10,3 +10,7 @@
 [submodule "src/range-v3"]
 	path = src/range-v3
 	url = https://github.com/ericniebler/range-v3.git
+[submodule "build/osx/clang6"]
+	path = build/osx/clang6
+	url = https://github.com/Marc--Olivier/third_parties_clang6.git
+
